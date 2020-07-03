@@ -1,0 +1,8 @@
+{:main example.app.core
+ :target :bundle
+ :bundle-freq :smart
+ :bundle-cmd {:none ["npx" "webpack" "-d" :output-to "-o" :final-output-to]}
+ :clean-outputs true
+ :closure-defines {goog.DEBUG true}
+ :source-map-timestamp true
+ :parallel-build true}

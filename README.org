@@ -1,0 +1,42 @@
+* clj-web
+
+A sample ClojureScript SPA with a Pedestal based Backend.
+
+** Check for newer NPM dependencies
+#+begin_src shell
+npm outdated
+#+end_src
+
+** Update NPM dependencies
+#+begin_src shell
+npm update
+#+end_src
+
+** Print classpath
+#+begin_src shell
+./scripts/pr-classpath.sh
+#+end_src
+
+** Build Frontend via separate shell
+#+begin_src shell
+lein fig -- --build dev --repl
+#+end_src
+
+** Develop Frontend interactively
+Start REPL with Figwheel and connect to it via =cider-jack-in-cljs=.
+Because the Frontend and Backend configuration are separated via Leiningen Profiles
+we need to activate the =:fig= Profile.
+On Spacemacs it can be achieved via Keyboard Shortcuts (universal arg) like this:
+#+begin_example
+SPC u C-c M-J (Spacebar 'u' Ctrl+'c' Shift+Alt+'j')
+#+end_example
+
+This way the =jack-in command= can be interactively edited. The final command
+should look like this (without linebreaks and with the correct path to lein executable):
+#+begin_src shell
+lein with-profile fig \
+  update-in :dependencies conj \[nrepl\ \"0.8.0-alpha3\"\] -- \
+  update-in :dependencies conj \[cider/piggieback\ \"0.5.0\"\] -- \
+  update-in :plugins conj \[cider/cider-nrepl\ \"0.25.3-SNAPSHOT\"\] -- \
+  repl :headless :host localhost
+#+end_src

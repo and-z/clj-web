@@ -16,7 +16,10 @@
   :target-path "target/%s/"
 
   :profiles
-  {:backend {:source-paths ["src/clj"]}
+  {:backend {:source-paths ["src/clj"]
+             :dependencies [[io.pedestal/pedestal.service "0.5.8"]
+                            [io.pedestal/pedestal.jetty "0.5.8"]
+                            [org.slf4j/slf4j-simple "1.7.30"]]}
 
    :fig {:source-paths ["src/cljs"]
          :resource-paths ["target"]

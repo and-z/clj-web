@@ -40,3 +40,33 @@ lein with-profile fig \
   update-in :plugins conj \[cider/cider-nrepl\ \"0.25.3-SNAPSHOT\"\] -- \
   repl :headless :host localhost
 #+end_src
+
+** Debug Leiningen project configuration, [[https://github.com/technomancy/leiningen/blob/master/doc/PROFILES.md#debugging][Doc]] 
+#+begin_src shell
+lein with-profile backend pprint
+#+end_src
+/Note/: no default profiles activated, no additional dependencies. In contrast to:
+#+begin_src shell
+lein with-profile +backend pprint
+#+end_src
+
+** Debug Backend dependencies
+#+begin_src shell
+lein with-profile +backend deps :why io.pedestal/pedestal.route
+#+end_src
+
+** Find matching Pedestal route
+Discover route details at the REPL:
+#+begin_src clojure
+(require '[io.pedestal.http.route :as route]
+         '[hello])
+
+(route/try-routing-for hello/routes :prefix-tree "/greet" :get) ;; returns route map
+(route/try-routing-for hello/routes :prefix-tree "/unknown" :get) ;; returns nil
+#+end_src
+
+Start server and send a request via curl:
+#+begin_src shell
+curl -i http://localhost:9000/greet
+#+end_src
+

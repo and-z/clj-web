@@ -53,8 +53,7 @@ the =.dir-locals.el= file.
 Now starting an nREPL server, compiling ClojureScript, producing the final
 JS bundle via Webpack, starting a Webbrowser and connecting to it is just
 as simple as executing =cider-jack-in-cljs= visiting a ClojureScript file.
-Or in Spacemacs =, ' (select)=. The preferred REPL and build name can be also
-predefined using =.dir-locals.el= file.
+The preferred REPL and build name can be also predefined using =.dir-locals.el= file.
 
 ** Start Backend REPL and connect to it
 Simple by executing =cider-jack-in-clj=. The correct profile

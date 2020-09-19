@@ -17,3 +17,6 @@
 
 (defn start []
   (http/start (create-server)))
+
+(defn print-routes []
+  (route/print-routes routes))

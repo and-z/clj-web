@@ -9,8 +9,8 @@
   "author": "Andreas Zimpel",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^4.43.0",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^5.1.4"
   }
 }

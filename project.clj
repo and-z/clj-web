@@ -5,9 +5,10 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
 
   :aliases
-  {"fig" ["with-profile" "fig" "trampoline" "run" "-m" "figwheel.main"]}
+  {"fig" ["with-profile" "+fig" "trampoline" "run" "-m" "figwheel.main"]}
 
-  :dependencies [[org.clojure/clojure "1.10.1"]]
+  :dependencies [[org.clojure/clojure "1.10.1"]
+                 [integrant "0.8.0"]]
 
   ;; All generated files will be placed in :target-path. In order to avoid
   ;; cross-profile contamination (for instance, uberjar classes interfering
@@ -24,5 +25,9 @@
    :fig {:source-paths ["src/cljs"]
          :resource-paths ["target"]
          :dependencies [[org.clojure/clojurescript "1.10.773"]
-                        [com.bhauman/figwheel-main "0.2.9"]
-                        [com.bhauman/rebel-readline-cljs "0.1.4"]]}})
+                        [com.bhauman/figwheel-main "0.2.11"]
+                        [com.bhauman/rebel-readline-cljs "0.1.4"]]}
+
+   :dev {:dependencies [[integrant/repl "0.3.2"]
+                        [org.clojure/tools.namespace "1.0.0"]]
+         :source-paths ["dev-src"]}})

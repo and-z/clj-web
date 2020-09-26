@@ -4,8 +4,9 @@
             [io.pedestal.http.ring-middlewares :as middlewares]
             [integrant.core :as ig]))
 
-(defn respond-hello [_]
-  {:status 200 :body "Hello pedestal"})
+(defn respond-hello
+  [{:request/keys [username]}]
+  {:status 200 :body (str "Hello " username)})
 
 (defn routes [interceptors]
   #{["/greet" :get (conj interceptors respond-hello) :route-name :greet]})
@@ -43,13 +44,15 @@
 (defmethod ig/init-key :pedestal/routes [_ {:keys [interceptors]}]
   (route/expand-routes (routes interceptors)))
 
-(def foo-interceptor
-  {:name ::foo-interceptor
+(def greeting-interceptor
+  {:name ::greeter
    :enter
-   (fn [ctx] (assoc ctx ::foo :bar))})
+   (fn [ctx]
+     (let [username (get-in ctx [:request :query-params :username] "Guest")]
+       (assoc-in ctx [:request :request/username] username)))})
 
 (defmethod ig/init-key :pedestal/route-interceptors [_ _]
-  [foo-interceptor])
+  [greeting-interceptor])
 
 (defmethod ig/init-key :pedestal/server [_ {:keys [service-config routes interceptors]}]
   (-> service-config
@@ -60,3 +63,6 @@
 
 (defmethod ig/halt-key! :pedestal/server [_ this]
   (server/stop this))
+
+(defn config [{:keys [port env], :or {port 3000, env :prod}}]
+  (system-config {:http/port port, :env env}))

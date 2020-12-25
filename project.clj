@@ -15,6 +15,7 @@
   ;; with development), it's recommended to include %s in in your custom
   ;; :target-path, which will splice in names of the currently active profiles.
   :target-path "target/%s/"
+  :main example.backend.main
 
   :profiles
   {:backend {:source-paths ["src/clj"]
@@ -30,4 +31,7 @@
 
    :dev {:dependencies [[integrant/repl "0.3.2"]
                         [org.clojure/tools.namespace "1.0.0"]]
-         :source-paths ["dev-src"]}})
+         :source-paths ["dev-src"]}
+
+   :uberjar {:aot :all}
+   })

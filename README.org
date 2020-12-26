@@ -2,24 +2,29 @@
 
 A sample ClojureScript SPA with a Pedestal based Backend.
 
-** Check for newer NPM dependencies
-#+begin_src shell
-npm outdated
-#+end_src
-
-** Update NPM dependencies
-#+begin_src shell
+* Contributing
+** Frontend
+*** Install dependencies
+    #+begin_src shell
+    npm install
+    #+end_src
+*** Check for newer NPM dependencies
+    #+begin_src shell
+    npm outdated
+    #+end_src
+*** Update dependencies
+*** Update NPM dependencies
+ #+begin_src shell
 npm update
-#+end_src
+ #+end_src
 
+*** Build Frontend via separate shell
+ #+begin_src shell
+lein fig -- --build dev --repl
+ #+end_src
 ** Print classpath
 #+begin_src shell
 ./scripts/pr-classpath.sh
-#+end_src
-
-** Build Frontend via separate shell
-#+begin_src shell
-lein fig -- --build dev --repl
 #+end_src
 
 ** Develop Frontend interactively

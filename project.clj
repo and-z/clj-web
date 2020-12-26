@@ -27,11 +27,11 @@
          :resource-paths ["target"]
          :repl-options {:init-ns user}
          :dependencies [[org.clojure/clojurescript "1.10.773"]
-                        [com.bhauman/figwheel-main "0.2.11"]
+                        [com.bhauman/figwheel-main "0.2.12"]
                         [com.bhauman/rebel-readline-cljs "0.1.4"]]}
 
    :dev {:dependencies [[integrant/repl "0.3.2"]
-                        [org.clojure/tools.namespace "1.0.0"]]
+                        [org.clojure/tools.namespace "1.1.0"]]
          :repl-options {:init-ns user}
          :source-paths ["dev-src"]}
 

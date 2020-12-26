@@ -4,80 +4,96 @@ A sample ClojureScript SPA with a Pedestal based Backend.
 
 * Contributing
 ** Frontend
-*** Install dependencies
-    #+begin_src shell
+*** Dependency Management
+**** Install dependencies
+     #+begin_src shell
     npm install
-    #+end_src
-*** Check for newer NPM dependencies
-    #+begin_src shell
+     #+end_src
+**** Check for newer NPM dependencies
+     #+begin_src shell
     npm outdated
-    #+end_src
-*** Update dependencies
-*** Update NPM dependencies
- #+begin_src shell
+     #+end_src
+**** Update NPM dependencies
+  #+begin_src shell
 npm update
- #+end_src
-
+  #+end_src
+**** Check for newer Java dependencies, requires [[https://github.com/xsc/lein-ancient][lein-ancient]] 
+     #+begin_src shell
+     lein with-profile +fig ancient
+     #+end_src
 *** Build Frontend via separate shell
  #+begin_src shell
 lein fig -- --build dev --repl
  #+end_src
-** Print classpath
-#+begin_src shell
-./scripts/pr-classpath.sh
-#+end_src
+*** Develop Frontend interactively
+**** Short
+ Start REPL with Figwheel and connect to it via =cider-jack-in-cljs=.
 
-** Develop Frontend interactively
-*** Short
-Start REPL with Figwheel and connect to it via =cider-jack-in-cljs=.
-
-*** Long explaination
-Because the Frontend and Backend configuration are separated via Leiningen Profiles
-we need to activate the =:fig= Profile.
-On Spacemacs it can be achieved via Keyboard Shortcuts (universal arg) like this:
-#+begin_example
+**** Long explaination
+ Because the Frontend and Backend configuration are separated via Leiningen Profiles
+ we need to activate the =:fig= Profile.
+ On Spacemacs it can be achieved via Keyboard Shortcuts (universal arg) like this:
+ #+begin_example
 SPC u C-c M-J (Spacebar 'u' Ctrl+'c' Shift+Alt+'j')
-#+end_example
+ #+end_example
 
-This way the =jack-in command= can be interactively edited. The final command
-should look like this (without linebreaks and with the correct path to lein executable):
-#+begin_src shell
+ This way the =jack-in command= can be interactively edited. The final command
+ should look like this (without linebreaks and with the correct path to lein executable):
+ #+begin_src shell
 lein with-profile fig \
   update-in :dependencies conj \[nrepl\ \"0.8.0-alpha3\"\] -- \
   update-in :dependencies conj \[cider/piggieback\ \"0.5.0\"\] -- \
   update-in :plugins conj \[cider/cider-nrepl\ \"0.25.3-SNAPSHOT\"\] -- \
   repl :headless :host localhost
+ #+end_src
+
+ Another more convenient way is to declare different Leiningen parameter for 
+ Clojure and ClojureScript mode in Cider. This way one can simple rely on default
+ =jack-in= workflow without repetitive command editing. Both Leiningen profiles
+ should be activated by declaring the =cider-lein-global-options= variable in
+ the =.dir-locals.el= file.
+
+ Now starting an nREPL server, compiling ClojureScript, producing the final
+ JS bundle via Webpack, starting a Webbrowser and connecting to it is just
+ as simple as executing =cider-jack-in-cljs= visiting a ClojureScript file.
+ The preferred REPL and build name can be also predefined using =.dir-locals.el= file.
+** Backend
+*** Dependency Management
+**** Check for newer dependencies, requires [[https://github.com/xsc/lein-ancient][lein-ancient]] 
+     #+begin_src shell
+     lein with-profile +backend ancient
+     #+end_src
+
+**** Debug Backend dependencies
+    #+begin_src shell
+    lein with-profile +backend deps :why io.pedestal/pedestal.route
+    #+end_src
+
+*** Start Backend REPL and connect to it
+ Simple by executing =cider-jack-in-clj=. The correct profile
+ will be automatically activated (see =.dir-locals.el= file).
+
+** Print classpath
+#+begin_src shell
+./scripts/pr-classpath.sh
 #+end_src
-
-Another more convenient way is to declare different Leiningen parameter for 
-Clojure and ClojureScript mode in Cider. This way one can simple rely on default
-=jack-in= workflow without repetitive command editing. Both Leiningen profiles
-should be activated by declaring the =cider-lein-global-options= variable in
-the =.dir-locals.el= file.
-
-Now starting an nREPL server, compiling ClojureScript, producing the final
-JS bundle via Webpack, starting a Webbrowser and connecting to it is just
-as simple as executing =cider-jack-in-cljs= visiting a ClojureScript file.
-The preferred REPL and build name can be also predefined using =.dir-locals.el= file.
-
-** Start Backend REPL and connect to it
-Simple by executing =cider-jack-in-clj=. The correct profile
-will be automatically activated (see =.dir-locals.el= file).
 
 ** Debug Leiningen project configuration, [[https://github.com/technomancy/leiningen/blob/master/doc/PROFILES.md#debugging][Doc]] 
-#+begin_src shell
-lein with-profile backend pprint
-#+end_src
-/Note/: no default profiles activated, no additional dependencies. In contrast to:
-#+begin_src shell
-lein with-profile +backend pprint
-#+end_src
-
-** Debug Backend dependencies
-#+begin_src shell
-lein with-profile +backend deps :why io.pedestal/pedestal.route
-#+end_src
-
+  #+begin_src shell
+  lein with-profile backend pprint
+  #+end_src
+  /Note/: no default profiles activated, no additional dependencies. In contrast to:
+  #+begin_src shell
+  lein with-profile +backend pprint
+  #+end_src
+** Analyze Backend dependencies conflicts
+   #+begin_src shell
+   lein with-profile +backend deps :tree 2> backend-conflicts
+   #+end_src
+** Analyse Frontend dependencies conflicts
+   #+begin_src shell
+   lein with-profile +fig deps :tree 2> frontend-conflicts
+   #+end_src
 ** Find matching Pedestal route
 Discover route details at the REPL:
 #+begin_src clojure
